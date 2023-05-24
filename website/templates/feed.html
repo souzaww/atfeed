@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block title %}Feed{% endblock %} 
+{% block content %}
+    <h1 align="center">Feeds</h1>
+    <ul class="list-group list-group-flush" id="feeds">
+      {% for feed in user.feeds %}
+      <li class="list-group-item">
+        {{ feed.name }} - {{ feed.feed_url }}
+        <!-- cria botão para editar o feed -->
+        <a href="/feed/{{ feed.id }}" class="btn btn-primary btn-sm">Edit</a>
+      </li>
+      {% endfor %}
+    </ul>
+    <hr />
+    <form method="POST">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" class="form-control" />
+        <br />
+        <label for="feed_url">Feed URL</label>
+        <input type="text" name="feed_url" id="feed_url" class="form-control" />
+        <br />
+        <div align="center">
+            <button type="submit" class="btn btn-primary">Add feed</button>
+        </div>
+    </form>
+{% endblock %}

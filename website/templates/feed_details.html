@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% block title %}Feed Detail - {{ feed.name }}{% endblock %} 
+{% block content %}
+    <h1 align="center">Feed Detail - {{ feed.name }}</h1>
+    <br />
+    <h2 align="center">Feed Info</h2>
+    <br />
+    <div class="row">
+      <div class="col-md-6">
+        <p><strong>Name:</strong> {{ feed.name }}</p>
+        <p><strong>Feed URL:</strong> {{ feed.feed_url }}</p>
+      </div>
+      <div class="col-md-6">
+        <p><strong>Created:</strong> {{ feed.created_at }}</p>
+        <p><strong>Updated:</strong> {{ feed.updated_at }}</p>
+      </div>
+
+    <!-- verifica se existem items atrelados ao feed -->
+    {% if feed.feed_items %}
+    <h2 align="center">Items</h2>
+    <ul class="list-group list-group-flush" id="feeds">
+      {% for feed_item in feed.feed_items %}
+      <li class="list-group-item">
+        {{ feed_item.sku }} | {{ feed_item.name }} | {{ feed_item.price }}
+        <!-- cria botão para ver detalhes do item -->
+        <a href="/feed/{{ feed.id }}/item/{{ feed_item.id }}" class="btn btn-primary btn-sm">Details</a>
+      </li>
+      {% endfor %}
+    {% endif %}
+    </ul>
+    <!-- caso nao exista 'feed_items' exibir botao Processar Feed -->
+    {% if not feed.feed_items %}
+    <br />
+    <div align="center">
+      <form method="POST" action="/feed/{{ feed.id }}/process">
+        <hidden name="feed_id" value="{{ feed.id }}" />
+        <button type="submit" class="btn btn-primary">Process Feed</button>
+      </form>
+      
+    <hr />
+    <!-- cria botão para voltar  -->
+    <a href="/feed" class="btn btn-primary btn-sm">Back</a>
+    </div>
+    {% endif %}
+{% endblock %}
